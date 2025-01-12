@@ -1,11 +1,12 @@
 package com.api_pedidos.api_pedidos.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import org.antlr.v4.runtime.misc.NotNull;
-import org.hibernate.annotations.NotFound;
 
 @Entity
-public class OrderList {
+@Table(name = "order_items")
+public class OrderItems {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,9 +21,9 @@ public class OrderList {
     @NotNull
     private double price;
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "id_order")
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
     private Order order;
 
 }

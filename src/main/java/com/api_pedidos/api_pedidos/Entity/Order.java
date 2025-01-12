@@ -1,5 +1,6 @@
 package com.api_pedidos.api_pedidos.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "orders")
 public class Order {
 
 
@@ -20,9 +22,9 @@ public class Order {
     @NotNull
     private String status;
 
-    @OneToMany
-    @NotNull
-    private List<OrderList> items = new ArrayList<>();
+    @JsonManagedReference
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<OrderItems> items = new ArrayList<>();
 
     public String getCustomerName() {
         return customerName;
@@ -40,11 +42,11 @@ public class Order {
         this.status = status;
     }
 
-    public List<OrderList> getItems() {
+    public List<OrderItems> getItems() {
         return items;
     }
 
-    public void setItems(List<OrderList> items) {
+    public void setItems(List<OrderItems> items) {
         this.items = items;
     }
 }
