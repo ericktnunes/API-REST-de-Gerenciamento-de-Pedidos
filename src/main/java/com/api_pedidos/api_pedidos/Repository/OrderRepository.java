@@ -8,11 +8,4 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
-
-    @EntityGraph(attributePaths = "items")  // Isso garante que os itens sejam carregados
-    List<Order> findAll();
-
-    @EntityGraph(attributePaths = "items")
-    Optional<Order> findById(Long id);
-
 }
