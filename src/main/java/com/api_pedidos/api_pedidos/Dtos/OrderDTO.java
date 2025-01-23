@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
+
 public class OrderDTO {
     private String customerName;
     private String status;
@@ -14,9 +15,7 @@ public class OrderDTO {
 
     //Construct DTO by order properties
     public OrderDTO(Order order) {
-        customerName = order.getCustomerName();
-        status = order.getStatus();
-        items = order.getItems();
+        BeanUtils.copyProperties(order, this);
     }
 
 

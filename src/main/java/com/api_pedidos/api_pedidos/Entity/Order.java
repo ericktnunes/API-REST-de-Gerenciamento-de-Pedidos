@@ -1,19 +1,17 @@
 package com.api_pedidos.api_pedidos.Entity;
 
+import com.api_pedidos.api_pedidos.Dtos.OrderDTO;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "tb_orders")
-@Setter
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Order {
 
 
@@ -27,16 +25,18 @@ public class Order {
     @NotNull
     private String status;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<OrderItems> items;
 
-    public Long getId() {
-        return id;
+    public Order() {
     }
 
-    public void setId(Long id) {
+    public Order(Long id, String customerName, String status, List<OrderItems> items) {
         this.id = id;
+        this.customerName = customerName;
+        this.status = status;
+        this.items = items;
     }
 
     public String getCustomerName() {

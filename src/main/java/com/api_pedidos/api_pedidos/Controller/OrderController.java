@@ -29,6 +29,7 @@ public class OrderController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Order createOrders(@RequestBody Order order){
+        System.out.println(order.getItems());
         return orderService.createOrder(order);
     }
 
@@ -37,8 +38,11 @@ public class OrderController {
     public Order deleteOrders (@PathVariable("id") Long id){
         return orderService.deleteOrder(id);
     }
+
+
     @PutMapping("/{id}")
     public Order updateOrders(@PathVariable Long id, @RequestBody Order order){
         return orderService.updateOrder(order);
     }
+
 }

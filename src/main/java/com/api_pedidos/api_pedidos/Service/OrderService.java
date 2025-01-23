@@ -1,9 +1,11 @@
 package com.api_pedidos.api_pedidos.Service;
 
 import com.api_pedidos.api_pedidos.Dtos.OrderDTO;
+import com.api_pedidos.api_pedidos.Dtos.OrderItemsDTO;
 import com.api_pedidos.api_pedidos.Entity.Order;
 import com.api_pedidos.api_pedidos.Repository.OrderListRepository;
 import com.api_pedidos.api_pedidos.Repository.OrderRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +19,11 @@ public class OrderService {
     @Autowired
     OrderRepository orderRepository;
 
-    public Order createOrder(Order order){
+    @Autowired
+    OrderListRepository orderListRepository;
+
+
+    public Order createOrder(Order order) {
         return orderRepository.save(order);
     }
 
