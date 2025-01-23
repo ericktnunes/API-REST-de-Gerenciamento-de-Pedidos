@@ -1,5 +1,6 @@
 package com.api_pedidos.api_pedidos.Controller;
 
+import com.api_pedidos.api_pedidos.Dtos.OrderDTO;
 import com.api_pedidos.api_pedidos.Entity.Order;
 import com.api_pedidos.api_pedidos.Service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,12 @@ public class OrderController {
     OrderService orderService;
 
     @GetMapping
-    public List<Order> findAllOrders(){
+    public List<OrderDTO> findAllOrders(){
         return orderService.findAllOrders();
     }
 
     @GetMapping("/{id}")
-    public Order findOrdersById(@PathVariable Long id){
+    public OrderDTO findOrdersById(@PathVariable Long id){
         return orderService.findById(id);
     }
 
@@ -36,11 +37,8 @@ public class OrderController {
     public Order deleteOrders (@PathVariable("id") Long id){
         return orderService.deleteOrder(id);
     }
-
-
     @PutMapping("/{id}")
     public Order updateOrders(@PathVariable Long id, @RequestBody Order order){
         return orderService.updateOrder(order);
     }
-
 }

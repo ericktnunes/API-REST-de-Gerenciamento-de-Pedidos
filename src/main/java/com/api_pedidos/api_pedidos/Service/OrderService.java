@@ -1,5 +1,6 @@
 package com.api_pedidos.api_pedidos.Service;
 
+import com.api_pedidos.api_pedidos.Dtos.OrderDTO;
 import com.api_pedidos.api_pedidos.Entity.Order;
 import com.api_pedidos.api_pedidos.Repository.OrderListRepository;
 import com.api_pedidos.api_pedidos.Repository.OrderRepository;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -16,16 +18,19 @@ public class OrderService {
     OrderRepository orderRepository;
 
     public Order createOrder(Order order){
-        var neworder = orderRepository.save(order);
-        return neworder;
+        return orderRepository.save(order);
     }
 
-    public List<Order> findAllOrders(){
-        return orderRepository.findAll();
+    public List<OrderDTO> findAllOrders(){
+        return orderRepository.findAll().stream()
+                .map(OrderDTO::new)
+                .collect(Collectors.toList());
     }
 
-    public Order findById(Long id){
-        return orderRepository.findById(id).get();
+    public OrderDTO findById(Long id){
+        return orderRepository.findById(id)
+                .map(OrderDTO::new).
+                orElseThrow(() -> new RuntimeException("Order not found!"));
     }
 
     public Order updateOrder(Order order){

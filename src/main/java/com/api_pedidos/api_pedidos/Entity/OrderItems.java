@@ -7,7 +7,10 @@ import org.antlr.v4.runtime.misc.NotNull;
 
 @Entity
 @Table(name = "tb_order_items")
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderItems {
 
     @Id

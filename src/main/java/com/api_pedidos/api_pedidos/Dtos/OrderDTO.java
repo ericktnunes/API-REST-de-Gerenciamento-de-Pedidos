@@ -1,43 +1,24 @@
-package com.api_pedidos.api_pedidos.Entity;
+package com.api_pedidos.api_pedidos.Dtos;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
+import com.api_pedidos.api_pedidos.Entity.Order;
+import com.api_pedidos.api_pedidos.Entity.OrderItems;
 import lombok.*;
-import org.antlr.v4.runtime.misc.NotNull;
+import org.springframework.beans.BeanUtils;
 
-import java.util.ArrayList;
 import java.util.List;
-
-@Entity
-@Table(name = "tb_orders")
-@Setter
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public class Order {
-
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @NotNull
+public class OrderDTO {
     private String customerName;
-
-    @NotNull
     private String status;
-
-    @OneToMany(mappedBy = "order")
-    @JsonManagedReference
     private List<OrderItems> items;
 
-    public Long getId() {
-        return id;
+
+    //Construct DTO by order properties
+    public OrderDTO(Order order) {
+        customerName = order.getCustomerName();
+        status = order.getStatus();
+        items = order.getItems();
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getCustomerName() {
         return customerName;
