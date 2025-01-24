@@ -17,12 +17,12 @@ public class OrderController {
     OrderService orderService;
 
     @GetMapping
-    public List<OrderDTO> findAllOrders(){
+    public List<Order> findAllOrders(){
         return orderService.findAllOrders();
     }
 
     @GetMapping("/{id}")
-    public OrderDTO findOrdersById(@PathVariable Long id){
+    public Order findOrdersById(@PathVariable Long id){
         return orderService.findById(id);
     }
 
@@ -39,9 +39,8 @@ public class OrderController {
         return orderService.deleteOrder(id);
     }
 
-
     @PutMapping("/{id}")
-    public Order updateOrders(@PathVariable Long id, @RequestBody Order order){
+    public Order updateOrders(@RequestBody Order order){
         return orderService.updateOrder(order);
     }
 

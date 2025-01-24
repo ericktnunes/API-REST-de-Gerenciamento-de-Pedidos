@@ -1,11 +1,10 @@
 package com.api_pedidos.api_pedidos.Service;
 
 import com.api_pedidos.api_pedidos.Dtos.OrderDTO;
-import com.api_pedidos.api_pedidos.Dtos.OrderItemsDTO;
 import com.api_pedidos.api_pedidos.Entity.Order;
 import com.api_pedidos.api_pedidos.Repository.OrderListRepository;
 import com.api_pedidos.api_pedidos.Repository.OrderRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,21 +26,20 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public List<OrderDTO> findAllOrders(){
-        return orderRepository.findAll().stream()
-                .map(OrderDTO::new)
-                .collect(Collectors.toList());
+    public List<Order> findAllOrders() {
+        return orderRepository.findAll();
     }
 
-    public OrderDTO findById(Long id){
-        return orderRepository.findById(id)
-                .map(OrderDTO::new).
-                orElseThrow(() -> new RuntimeException("Order not found!"));
+    public Order findById(Long id){
+        Optional<Order> orderOptional = orderRepository.findById(id);
+        if(orderOptional.isPresent()){
+            return orderOptional.get();
+        }
+        return null;
     }
 
-    public Order updateOrder(Order order){
-        var updateOrder = orderRepository.save(order);
-        return updateOrder;
+    public Order updateOrder(Order order) {
+        return orderRepository.save(order);
     }
 
     public Order deleteOrder(Long id){
