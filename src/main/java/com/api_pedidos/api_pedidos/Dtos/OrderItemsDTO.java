@@ -6,6 +6,8 @@ import org.springframework.beans.BeanUtils;
 
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderItemsDTO {
     private String productName;
     private int quantity;

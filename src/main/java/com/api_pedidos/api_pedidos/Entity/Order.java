@@ -12,6 +12,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "tb_orders")
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Order {
 
 
@@ -29,37 +33,9 @@ public class Order {
     @JsonManagedReference
     private List<OrderItems> items;
 
-    public Order() {
+    //Entity to DTO
+    public Order(OrderDTO orderDTO){
+        BeanUtils.copyProperties(orderDTO, this);
     }
 
-    public Order(Long id, String customerName, String status, List<OrderItems> items) {
-        this.id = id;
-        this.customerName = customerName;
-        this.status = status;
-        this.items = items;
-    }
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public List<OrderItems> getItems() {
-        return items;
-    }
-
-    public void setItems(List<OrderItems> items) {
-        this.items = items;
-    }
 }

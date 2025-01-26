@@ -17,20 +17,19 @@ public class OrderController {
     OrderService orderService;
 
     @GetMapping
-    public List<Order> findAllOrders(){
+    public List<OrderDTO> findAllOrders(){
         return orderService.findAllOrders();
     }
 
     @GetMapping("/{id}")
-    public Order findOrdersById(@PathVariable Long id){
+    public OrderDTO findOrdersById(@PathVariable Long id){
         return orderService.findById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Order createOrders(@RequestBody Order order){
-        System.out.println(order.getItems());
-        return orderService.createOrder(order);
+    public Order createOrders(@RequestBody OrderDTO orderDTO){
+        return orderService.createOrder(orderDTO);
     }
 
     @DeleteMapping("/{id}")
@@ -40,8 +39,8 @@ public class OrderController {
     }
 
     @PutMapping("/{id}")
-    public Order updateOrders(@RequestBody Order order){
-        return orderService.updateOrder(order);
+    public Order updateOrders(@PathVariable("id") Long id, @RequestBody OrderDTO orderDTO){
+        return orderService.updateOrder(id, orderDTO);
     }
 
 }

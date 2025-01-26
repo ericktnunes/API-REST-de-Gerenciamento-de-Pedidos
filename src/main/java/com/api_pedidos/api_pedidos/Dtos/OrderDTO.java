@@ -7,6 +7,11 @@ import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderDTO {
     private String customerName;
     private String status;
@@ -16,30 +21,5 @@ public class OrderDTO {
     //Construct DTO by order properties
     public OrderDTO(Order order) {
         BeanUtils.copyProperties(order, this);
-    }
-
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public List<OrderItems> getItems() {
-        return items;
-    }
-
-    public void setItems(List<OrderItems> items) {
-        this.items = items;
     }
 }
