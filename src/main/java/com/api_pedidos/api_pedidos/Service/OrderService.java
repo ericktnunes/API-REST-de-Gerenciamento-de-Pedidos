@@ -21,9 +21,18 @@ public class OrderService {
     @Autowired
     OrderRepository orderRepository;
 
-    @Transactional
     public Order createOrder(OrderDTO orderDTO) {
-        return new Order(orderDTO);
+
+        Order order = new Order(orderDTO);
+
+        if(orderDTO.getItems() != null){
+            for(OrderItems item : orderDTO.getItems()){
+                item.setOrder(order);
+                order.setItems(orderDTO.getItems());
+            }
+        }
+
+        return orderRepository.save(order);
     }
 
     public List<OrderDTO> findAllOrders() {
@@ -55,15 +64,28 @@ public class OrderService {
         existingOrder.setCustomerName(orderDTO.getCustomerName());
         existingOrder.setStatus(orderDTO.getStatus());
 
-        // Atualize os itens
+        // Att orderItems
         if (orderDTO.getItems() != null) {
-            // Limpe os itens antigos
-            existingOrder.getItems().clear();
-
-            // Adicione os novos itens com a associação correta
+            // add new items
             for (OrderItems item : orderDTO.getItems()) {
-                item.setOrder(existingOrder); // Associe o pedido ao item
-                existingOrder.setItems(orderDTO.getItems()); // Adicione o item ao pedido
+
+                //if exist this item, get the item
+                Optional<OrderItems> orderItemsOptional = existingOrder.getItems()
+                                .stream()
+                                .filter(i -> i.getId().equals(item.getId()))
+                                .findFirst();
+
+                if(orderItemsOptional.isPresent()){
+                    //att the exist item
+                    OrderItems existingItem = orderItemsOptional.get();
+                    existingItem.setProductName(item.getProductName());
+                    existingItem.setPrice(item.getPrice());
+                    existingItem.setQuantity(item.getQuantity());
+                } else {
+                    //if don't exist, create new item
+                    item.setOrder(existingOrder);
+                    existingOrder.setItems(orderDTO.getItems());
+                }
             }
         }
         return orderRepository.save(existingOrder);

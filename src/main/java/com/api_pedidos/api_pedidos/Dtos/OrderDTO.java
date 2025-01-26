@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDTO {
+    private Long id;
     private String customerName;
     private String status;
     private List<OrderItems> items;
