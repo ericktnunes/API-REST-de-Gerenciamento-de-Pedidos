@@ -1,5 +1,6 @@
 package com.api_pedidos.api_pedidos.Service;
 
+import com.api_pedidos.api_pedidos.Dtos.OrderCreateDTO;
 import com.api_pedidos.api_pedidos.Dtos.OrderDTO;
 import com.api_pedidos.api_pedidos.Entity.Order;
 import com.api_pedidos.api_pedidos.Entity.OrderItems;
@@ -21,18 +22,29 @@ public class OrderService {
     @Autowired
     OrderRepository orderRepository;
 
-    public Order createOrder(OrderDTO orderDTO) {
+    public OrderDTO createOrder(OrderCreateDTO orderCreateDTO) {
 
-        Order order = new Order(orderDTO);
+        Order order = new Order(orderCreateDTO);
 
-        if(orderDTO.getItems() != null){
-            for(OrderItems item : orderDTO.getItems()){
-                item.setOrder(order);
-                order.setItems(orderDTO.getItems());
-            }
+        if(orderCreateDTO.getItems() != null){
+            Order finalOrder = order;
+            List<OrderItems> items = orderCreateDTO.getItems().stream()
+                    .map(orderItemsDTO -> {
+                        OrderItems orderItems = new OrderItems();
+                        orderItems.setOrder(finalOrder);
+                        orderItems.setQuantity(orderItemsDTO.getQuantity());
+                        orderItems.setPrice(orderItemsDTO.getPrice());
+                        orderItems.setProductName(orderItemsDTO.getProductName());
+                        return orderItems;
+                    })
+                    .collect(Collectors.toList());
+
+
+            order.setItems(items);
         }
 
-        return orderRepository.save(order);
+        order = orderRepository.save(order);
+        return new OrderDTO(order);
     }
 
     public List<OrderDTO> findAllOrders() {
@@ -66,27 +78,24 @@ public class OrderService {
 
         // Att orderItems
         if (orderDTO.getItems() != null) {
-            // add new items
-            for (OrderItems item : orderDTO.getItems()) {
-
-                //if exist this item, get the item
-                Optional<OrderItems> orderItemsOptional = existingOrder.getItems()
+            List<OrderItems> updatedItems = orderDTO.getItems().stream()
+                    .map(orderItemsDTO -> {
+                        // Verificando se o item já existe na ordem
+                        Optional<OrderItems> existingItemOpt = existingOrder.getItems()
                                 .stream()
-                                .filter(i -> i.getId().equals(item.getId()))
+                                .filter(i -> i.getId().equals(orderItemsDTO.getId()))
                                 .findFirst();
 
-                if(orderItemsOptional.isPresent()){
-                    //att the exist item
-                    OrderItems existingItem = orderItemsOptional.get();
-                    existingItem.setProductName(item.getProductName());
-                    existingItem.setPrice(item.getPrice());
-                    existingItem.setQuantity(item.getQuantity());
-                } else {
-                    //if don't exist, create new item
-                    item.setOrder(existingOrder);
-                    existingOrder.setItems(orderDTO.getItems());
-                }
-            }
+                        OrderItems orderItem = existingItemOpt.orElse(new OrderItems());
+                        orderItem.setProductName(orderItemsDTO.getProductName());
+                        orderItem.setQuantity(orderItemsDTO.getQuantity());
+                        orderItem.setPrice(orderItemsDTO.getPrice());
+                        orderItem.setOrder(existingOrder);
+                        return orderItem;
+                    })
+                    .collect(Collectors.toList());
+
+            existingOrder.setItems(updatedItems); // Atualizando a lista de itens
         }
         return orderRepository.save(existingOrder);
     }

@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderItemsDTO {
+    private Long id;
     private String productName;
     private int quantity;
     private double price;

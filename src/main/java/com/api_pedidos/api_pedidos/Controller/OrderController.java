@@ -1,5 +1,6 @@
 package com.api_pedidos.api_pedidos.Controller;
 
+import com.api_pedidos.api_pedidos.Dtos.OrderCreateDTO;
 import com.api_pedidos.api_pedidos.Dtos.OrderDTO;
 import com.api_pedidos.api_pedidos.Entity.Order;
 import com.api_pedidos.api_pedidos.Service.OrderService;
@@ -28,8 +29,8 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Order createOrders(@RequestBody OrderDTO orderDTO){
-        return orderService.createOrder(orderDTO);
+    public OrderDTO createOrders(@RequestBody OrderCreateDTO orderCreateDTO){
+        return orderService.createOrder(orderCreateDTO);
     }
 
     @DeleteMapping("/{id}")

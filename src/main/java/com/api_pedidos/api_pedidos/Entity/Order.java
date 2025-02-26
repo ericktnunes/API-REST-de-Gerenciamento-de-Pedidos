@@ -1,5 +1,6 @@
 package com.api_pedidos.api_pedidos.Entity;
 
+import com.api_pedidos.api_pedidos.Dtos.OrderCreateDTO;
 import com.api_pedidos.api_pedidos.Dtos.OrderDTO;
 import com.api_pedidos.api_pedidos.Entity.Enum.PaymentMethod;
 import com.api_pedidos.api_pedidos.Entity.Enum.Status;
@@ -46,6 +47,11 @@ public class Order {
     //Entity to DTO
     public Order(OrderDTO orderDTO){
         BeanUtils.copyProperties(orderDTO, this);
+    }
+
+    //Entity to DTO of creation
+    public Order(OrderCreateDTO orderCreateDTO){
+        BeanUtils.copyProperties(orderCreateDTO, this);
     }
 
 }
