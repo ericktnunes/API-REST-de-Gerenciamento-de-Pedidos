@@ -1,6 +1,7 @@
 package com.api_pedidos.api_pedidos.Entity;
 
 import com.api_pedidos.api_pedidos.Dtos.OrderDTO;
+import com.api_pedidos.api_pedidos.Entity.Enum.PaymentMethod;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,6 +33,13 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<OrderItems> items;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
+
+    @NotNull
+    private String deliveryAddress;
 
     //Entity to DTO
     public Order(OrderDTO orderDTO){
