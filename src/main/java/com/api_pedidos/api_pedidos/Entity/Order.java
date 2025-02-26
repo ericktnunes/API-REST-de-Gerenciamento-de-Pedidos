@@ -2,6 +2,7 @@ package com.api_pedidos.api_pedidos.Entity;
 
 import com.api_pedidos.api_pedidos.Dtos.OrderDTO;
 import com.api_pedidos.api_pedidos.Entity.Enum.PaymentMethod;
+import com.api_pedidos.api_pedidos.Entity.Enum.Status;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,7 +29,8 @@ public class Order {
     private String customerName;
 
     @NotNull
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @JsonManagedReference

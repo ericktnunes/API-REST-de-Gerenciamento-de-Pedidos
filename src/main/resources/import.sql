@@ -1,9 +1,9 @@
 -- Inserir dados na tabela orders
-INSERT INTO tb_orders (customer_name, status, payment_method, delivery_address) VALUES ('João', 'Pendente', 'PIX', 'Rua A, 123, São Paulo');
-INSERT INTO tb_orders (customer_name, status, payment_method, delivery_address) VALUES ('Maria', 'Concluído', 'CARTAO_CREDITO', 'Av. B, 456, Rio de Janeiro');
-INSERT INTO tb_orders (customer_name, status, payment_method, delivery_address) VALUES ('Carlos', 'Pendente', 'DINHEIRO', 'Rua C, 789, Belo Horizonte');
-INSERT INTO tb_orders (customer_name, status, payment_method, delivery_address) VALUES ('Ana', 'Concluído', 'CARTAO_DEBITO', 'Av. D, 321, Porto Alegre');
-INSERT INTO tb_orders (customer_name, status, payment_method, delivery_address) VALUES ('Erick', 'Pendente', 'PIX', 'Samambaia Sul, Brasília - DF');
+INSERT INTO tb_orders (customer_name, status, payment_method, delivery_address) VALUES ('João', 'PENDENTE', 'PIX', 'Rua A, 123, São Paulo');
+INSERT INTO tb_orders (customer_name, status, payment_method, delivery_address) VALUES ('Maria', 'CONCLUIDO', 'CARTAO_CREDITO', 'Av. B, 456, Rio de Janeiro');
+INSERT INTO tb_orders (customer_name, status, payment_method, delivery_address) VALUES ('Carlos', 'PENDENTE', 'DINHEIRO', 'Rua C, 789, Belo Horizonte');
+INSERT INTO tb_orders (customer_name, status, payment_method, delivery_address) VALUES ('Ana', 'CONCLUIDO', 'CARTAO_DEBITO', 'Av. D, 321, Porto Alegre');
+INSERT INTO tb_orders (customer_name, status, payment_method, delivery_address) VALUES ('Erick', 'PENDENTE', 'PIX', 'Samambaia Sul, Brasília - DF');
 
 -- Inserir dados na tabela order_items
 INSERT INTO tb_order_items (product_name, quantity, price, order_id) VALUES ('Produto 1', 2, 10.5, 1);
